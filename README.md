@@ -30,22 +30,30 @@ python3 -m src.main --input ./client_files --output ./results
 ```
 
 ```
-✓ [1/5] Found 100 file(s)
-✓ [2/5] Merged → 12,847 rows
-✓ [3/5] Cleaned → 11,203 rows
-✓ [4/5] Summary report generated
-✓ [5/5] Export complete
+╭────────────────────────────────────╮
+│                                    │
+│    Business Automation Toolkit     │
+│    Excel Processing Module v1.0    │
+│                                    │
+╰────────────────────────────────────╯
 
-┌─────────────────────────────────────────┐
-│         Processing Summary              │
-├──────────────────────┬──────────────────┤
-│ Rows Before          │           12,847 │
-│ Duplicates Removed   │           -1,203 │
-│ Empty Rows Removed   │             -441 │
-│ Rows After           │           11,203 │
-│ Data Retention       │            87.2% │
-│ Time Elapsed         │            2.34s │
-└──────────────────────┴──────────────────┘
+  ✓ [1/5] Found 5 file(s)
+  ✓ [2/5] Merged → 110 rows
+  ✓ [3/5] Cleaned → 100 rows
+  ✓ [4/5] Summary report generated
+  ✓ [5/5] Export complete
+
+      Processing Summary
+╭────────────────────┬───────╮
+│ Metric             │ Value │
+├────────────────────┼───────┤
+│ Rows Before        │   110 │
+│ Duplicates Removed │   -10 │
+│ Empty Rows Removed │    -0 │
+│ Rows After         │   100 │
+│ Data Retention     │ 90.9% │
+│ Time Elapsed       │ 0.17s │
+╰────────────────────┴───────╯
 ```
 
 ---
@@ -104,19 +112,13 @@ cp sample_data/*.xlsx input/
 python3 -m src.main
 ```
 
-<!-- TODO: Add terminal recording GIF here -->
-<!-- ![Demo](screenshots/demo.gif) -->
-
 ---
 
 ## Installation
 
 ```bash
-# Clone
 git clone https://github.com/GovindaJeswani/python-business-automation.git
 cd python-business-automation
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
@@ -138,7 +140,7 @@ python3 -m src.main
 python3 -m src.main --input /path/to/client/files --output /path/to/results
 ```
 
-### What you get
+### Output Files
 
 | Output File | Description |
 |-------------|-------------|
@@ -167,9 +169,9 @@ python-business-automation/
 │   ├── logger.py         ← Centralized logging
 │   └── utils.py          ← File discovery utilities
 └── tests/
-    ├── test_merge.py
-    ├── test_cleaner.py
-    └── test_report.py
+    ├── test_merge.py     ← 6 tests
+    ├── test_cleaner.py   ← 7 tests
+    └── test_report.py    ← 7 tests
 ```
 
 ---
@@ -202,6 +204,13 @@ USE_RICH_OUTPUT = True
 
 ```bash
 pytest tests/ -v
+```
+
+```
+tests/test_cleaner.py   7 passed
+tests/test_merge.py     6 passed
+tests/test_report.py    7 passed
+======================== 20 passed in 0.64s ========================
 ```
 
 ---
