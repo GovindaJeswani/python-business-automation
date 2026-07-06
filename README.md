@@ -2,7 +2,7 @@
 
 > Merge, clean, and report on hundreds of Excel files in seconds. Built for businesses that waste hours on manual data consolidation.
 
-[![Tests](https://github.com/YOUR_USERNAME/python-business-automation/actions/workflows/tests.yml/badge.svg)](https://github.com/YOUR_USERNAME/python-business-automation/actions/workflows/tests.yml)
+[![Tests](https://github.com/GovindaJeswani/python-business-automation/actions/workflows/tests.yml/badge.svg)](https://github.com/GovindaJeswani/python-business-automation/actions/workflows/tests.yml)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -113,7 +113,7 @@ python3 -m src.main
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/python-business-automation.git
+git clone https://github.com/GovindaJeswani/python-business-automation.git
 cd python-business-automation
 
 # Install dependencies
