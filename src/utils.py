@@ -10,6 +10,7 @@ Why a utils module?
 import os
 from typing import List
 
+from src.config import EXCEL_EXTENSIONS, IGNORE_TEMP_FILES
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -32,12 +33,13 @@ def discover_excel_files(directory: str) -> List[str]:
     if not os.path.isdir(directory):
         raise FileNotFoundError(f"Input directory not found: {directory}")
 
-    excel_extensions = (".xlsx", ".xls")
-    files = [
-        os.path.join(directory, f)
-        for f in sorted(os.listdir(directory))
-        if f.lower().endswith(excel_extensions) and not f.startswith("~$")
-    ]
+    files = []
+    for f in sorted(os.listdir(directory)):
+        if not f.lower().endswith(EXCEL_EXTENSIONS):
+            continue
+        if IGNORE_TEMP_FILES and f.startswith("~$"):
+            continue
+        files.append(os.path.join(directory, f))
 
     if not files:
         raise ValueError(f"No Excel files found in: {directory}")

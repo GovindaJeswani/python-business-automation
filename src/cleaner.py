@@ -13,6 +13,7 @@ This lets the report module show exactly what was cleaned.
 import pandas as pd
 from typing import Tuple
 
+from src.config import DUPLICATE_CHECK_IGNORE_COLUMNS, EMPTY_ROW_CHECK_IGNORE_COLUMNS
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -31,8 +32,7 @@ def remove_duplicates(df: pd.DataFrame) -> Tuple[pd.DataFrame, int]:
     Returns:
         Tuple of (cleaned DataFrame, number of duplicates removed).
     """
-    # Exclude our internal tracking column from duplicate detection
-    subset_cols = [col for col in df.columns if col != "_source_file"]
+    subset_cols = [col for col in df.columns if col not in DUPLICATE_CHECK_IGNORE_COLUMNS]
 
     before = len(df)
     df_clean = df.drop_duplicates(subset=subset_cols, keep="first").reset_index(drop=True)
@@ -54,7 +54,7 @@ def remove_empty_rows(df: pd.DataFrame) -> Tuple[pd.DataFrame, int]:
     Returns:
         Tuple of (cleaned DataFrame, number of empty rows removed).
     """
-    subset_cols = [col for col in df.columns if col != "_source_file"]
+    subset_cols = [col for col in df.columns if col not in EMPTY_ROW_CHECK_IGNORE_COLUMNS]
 
     before = len(df)
     df_clean = df.dropna(subset=subset_cols, how="all").reset_index(drop=True)

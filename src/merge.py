@@ -10,7 +10,9 @@ Why split merging into its own module?
 
 import pandas as pd
 from typing import List
+from tqdm import tqdm
 
+from src.config import SHOW_PROGRESS_BAR
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -37,7 +39,15 @@ def merge_excel_files(file_paths: List[str]) -> pd.DataFrame:
     dataframes = []
     failed_files = []
 
-    for path in file_paths:
+    iterator = tqdm(
+        file_paths,
+        desc="  Reading files",
+        unit="file",
+        disable=not SHOW_PROGRESS_BAR,
+        bar_format="  {l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
+    )
+
+    for path in iterator:
         try:
             df = pd.read_excel(path, engine="openpyxl")
             df["_source_file"] = path.split("/")[-1].split("\\")[-1]

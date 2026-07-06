@@ -13,6 +13,7 @@ from datetime import datetime
 
 import pandas as pd
 
+from src.config import TIMESTAMP_FORMAT, EXPORT_EXCEL, EXPORT_CSV, EXPORT_SUMMARY
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -77,30 +78,32 @@ def export_results(
         Dict with paths to all generated files.
     """
     os.makedirs(output_dir, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
 
     # Remove internal tracking column before export
     export_df = df.drop(columns=["_source_file"], errors="ignore")
 
+    output_files = {}
+
     # Main Excel output with two sheets
-    excel_path = os.path.join(output_dir, f"cleaned_data_{timestamp}.xlsx")
-    with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
-        export_df.to_excel(writer, sheet_name="Data", index=False)
-        summary_df.to_excel(writer, sheet_name="Summary", index=False)
+    if EXPORT_EXCEL:
+        excel_path = os.path.join(output_dir, f"cleaned_data_{timestamp}.xlsx")
+        with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
+            export_df.to_excel(writer, sheet_name="Data", index=False)
+            summary_df.to_excel(writer, sheet_name="Summary", index=False)
+        output_files["excel"] = excel_path
 
     # CSV export for interoperability
-    csv_path = os.path.join(output_dir, f"cleaned_data_{timestamp}.csv")
-    export_df.to_csv(csv_path, index=False)
+    if EXPORT_CSV:
+        csv_path = os.path.join(output_dir, f"cleaned_data_{timestamp}.csv")
+        export_df.to_csv(csv_path, index=False)
+        output_files["csv"] = csv_path
 
     # Standalone summary
-    summary_path = os.path.join(output_dir, f"summary_report_{timestamp}.xlsx")
-    summary_df.to_excel(summary_path, index=False)
-
-    output_files = {
-        "excel": excel_path,
-        "csv": csv_path,
-        "summary": summary_path,
-    }
+    if EXPORT_SUMMARY:
+        summary_path = os.path.join(output_dir, f"summary_report_{timestamp}.xlsx")
+        summary_df.to_excel(summary_path, index=False)
+        output_files["summary"] = summary_path
 
     logger.info(f"Exported results to {output_dir}/")
     for key, path in output_files.items():
